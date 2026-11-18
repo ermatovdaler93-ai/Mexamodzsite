@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}MEXXA MODZ — Dashboard{% endblock %}{% block body %}
+<section class="hero compact"><div class="eyebrow">USER DASHBOARD</div><h1>ACCESS <span>GRANTED</span></h1>
+<div class="stats"><div class="stat"><small>KEY</small><strong>••••-{{key_hint}}</strong></div><div class="stat"><small>ACCESS TIME LEFT</small><strong id="timer">--:--:--</strong></div></div>
+<h2>VPN CONFIGURATIONS</h2><p class="sub">Выберите профиль и скачайте его для импорта в совместимое VPN-приложение.</p>
+<div class="profile-grid">{% for p in profiles %}<article class="profile"><div class="flag">◈</div><small>{{p.country}}</small><h3>{{p.filename}}</h3><a class="download" href="{{url_for('download_profile',profile_id=p.id)}}">СКАЧАТЬ ПРОФИЛЬ ↓</a></article>{% else %}<div class="empty">Пока нет загруженных профилей. Обратитесь к администратору.</div>{% endfor %}</div>
+<div class="notice">Панель не создаёт VPN-серверы. Работают только профили, добавленные администратором и поддерживаемые вашим VPN-клиентом.</div><a class="muted-link" href="/logout">ВЫЙТИ</a></section>
+<script>let left={{remaining|int}};const el=document.getElementById('timer');function tick(){if(left<0)left=0;let h=Math.floor(left/3600),m=Math.floor(left%3600/60),s=left%60;el.textContent=[h,m,s].map(x=>String(x).padStart(2,'0')).join(':');if(left===0){location.href='/logout';return;}left--;}tick();setInterval(tick,1000);</script>
+{% endblock %}
